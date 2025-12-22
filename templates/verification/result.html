@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Certificate Verification</h3>
+
+{% if valid %}
+<div class="alert alert-success">
+  <h4><i class="bi bi-check-circle-fill"></i> Certificate is VALID</h4>
+</div>
+{% else %}
+<div class="alert alert-danger">
+  <h4><i class="bi bi-x-circle-fill"></i> Certificate is INVALID</h4>
+</div>
+{% endif %}
+
+{% endblock %}

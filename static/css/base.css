@@ -1,0 +1,73 @@
+/* =========================
+   GLOBAL STYLES
+========================= */
+body {
+    background-color: #f5f7fa;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* =========================
+   GOVERNMENT HEADER
+========================= */
+.gov-header {
+    background-color: #0A3D20;
+    padding: 15px 0;
+    color: white;
+}
+
+.gov-header h1 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 700;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-gov {
+    background-color: #D4A017;
+    color: #000;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-gov:hover {
+    background-color: #b18613;
+    color: #000;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.app-footer {
+    background-color: #0A3D20;
+    color: #ddd;
+    padding: 20px;
+    margin-top: 60px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* =========================
+   SIGNUP PAGE
+========================= */
+.signup-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-header h3 {
+    font-weight: 700;
+    color: #0A7227;
+}
+
+.input-group-text {
+    background-color: #f3f3f3;
+    font-weight: 600;
+}
+
+.info-note {
+    font-size: 13px;
+    text-align: center;
+    color: #777;
+}

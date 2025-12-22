@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3><i class="bi bi-search"></i> Verify Certificate</h3>
+
+<div class="card shadow-sm mt-3">
+  <div class="card-body">
+
+    <form method="get">
+      <input type="text" name="code" class="form-control" placeholder="Enter certificate code…" required>
+      <button class="btn btn-gov mt-3 w-100">Verify</button>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

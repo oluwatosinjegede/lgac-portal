@@ -1,0 +1,74 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+
+    <a class="navbar-brand fw-bold text-dark" href="{% url 'core:home' %}">
+      LGAC Portal
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+
+        {% if user.is_authenticated %}
+
+          {# ================= DASHBOARD (ROLE AWARE) ================= #}
+          {% if user.is_admin_user %}
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/">
+                <i class="bi bi-grid"></i> Dashboard
+              </a>
+            </li>
+
+          {% elif user.is_lga_officer %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'lga:dashboard' %}">
+                <i class="bi bi-grid"></i> Dashboard
+              </a>
+            </li>
+
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'applications:dashboard' %}">
+                <i class="bi bi-grid"></i> Dashboard
+              </a>
+            </li>
+          {% endif %}
+
+          {# ================= PROFILE ================= #}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:profile' %}">
+              <i class="bi bi-person-circle"></i> Profile
+            </a>
+          </li>
+
+          {# ================= LOGOUT ================= #}
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'accounts:logout' %}">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </li>
+
+        {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:login' %}">
+              <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:signup' %}">
+              <i class="bi bi-person-plus"></i> Create Account
+            </a>
+          </li>
+
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+

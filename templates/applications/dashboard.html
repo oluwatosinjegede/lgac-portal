@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{# ===================================================== #}
+{# LGA OFFICER – LGA ASSIGNMENT PANEL #}
+{# ===================================================== #}
+{% if user.is_lga_officer and lga_form %}
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-light">
+        <strong>
+            <i class="bi bi-geo-alt"></i> LGA Assignment
+        </strong>
+    </div>
+    <div class="card-body">
+
+        {% if user.lga %}
+            <p class="mb-3">
+                <strong>Assigned LGA:</strong>
+                {{ user.lga.name }}
+            </p>
+        {% else %}
+            <p class="text-muted mb-3">
+                You have not yet been assigned to a Local Government Area.
+            </p>
+        {% endif %}
+
+        <form method="post" class="row g-3">
+            {% csrf_token %}
+
+            <div class="col-md-6">
+                {{ lga_form.lga.label_tag }}
+                {{ lga_form.lga }}
+                {{ lga_form.lga.errors }}
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-gov">
+                    <i class="bi bi-save"></i> Save LGA Assignment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+
+{# ===================================================== #}
+{# CITIZEN – APPLICATIONS DASHBOARD #}
+{# ===================================================== #}
+<h3 class="mb-3">
+    <i class="bi bi-grid"></i> My Applications
+</h3>
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="{% url 'applications:new' %}" class="btn btn-gov">
+        <i class="bi bi-plus-circle"></i> Apply for Certificate
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-success">
+                    <tr>
+                        <th>ID</th>
+                        <th>LGA</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>#{{ app.id }}</td>
+
+                        <td>{{ app.lga.name }}</td>
+
+                        <td>
+                            {% if app.status == "SUBMITTED" %}
+                                <span class="badge bg-warning text-dark">Submitted</span>
+                            {% elif app.status == "PAID" %}
+                                <span class="badge bg-success">Paid</span>
+                            {% elif app.status == "IN_REVIEW" %}
+                                <span class="badge bg-primary">In Review</span>
+                            {% elif app.status == "APPROVED" %}
+                                <span class="badge bg-success">Approved</span>
+                            {% elif app.status == "REJECTED" %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% elif app.status == "WITHDRAWN" %}
+                                <span class="badge bg-secondary">Withdrawn</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark">
+                                    {{ app.get_status_display }}
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ app.created_at|date:"M d, Y" }}</td>
+
+                        <td class="text-end">
+
+                            <!-- VIEW -->
+                            <a href="{% url 'applications:view' app.id %}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+
+                            <!-- PAY (SUBMITTED ONLY) -->
+                            {% if app.status == "SUBMITTED" %}
+                                <a href="{% url 'payments:initiate' app.id %}"
+                                   class="btn btn-sm btn-success ms-1">
+                                    <i class="bi bi-credit-card"></i> Pay ₦5,000
+                                </a>
+                            {% endif %}
+
+                            <!-- WITHDRAW (PAID or IN_REVIEW ONLY) -->
+                            {% if app.status == "PAID" or app.status == "IN_REVIEW" %}
+                            <form method="post"
+                                  action="{% url 'applications:withdraw' app.id %}"
+                                  class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger ms-1"
+                                        onclick="return confirm(
+                                            'Are you sure you want to withdraw this application? This action cannot be undone.'
+                                        );">
+                                    Withdraw
+                                </button>
+                            </form>
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="text-muted mb-0">
+                No applications found. Click <strong>“Apply for Certificate”</strong> to begin.
+            </p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

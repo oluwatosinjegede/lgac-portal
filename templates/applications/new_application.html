@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <h4 class="text-success mb-4 text-center">
+                Apply for Local Government Attestation Certificate
+            </h4>
+
+            <!-- =========================
+                 APPLICANT IDENTITY (READ-ONLY)
+                 ========================= -->
+            <fieldset class="mb-4 border rounded p-3">
+                <legend class="fw-bold px-2">Applicant Information</legend>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-semibold">Full Name</label>
+                        <input class="form-control" value="{{ user.full_name }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-semibold">Email Address</label>
+                        <input class="form-control" value="{{ user.email }}" readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="fw-semibold">Phone Number</label>
+                        <input class="form-control" value="{{ user.phone }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-semibold">National Identification Number (NIN)</label>
+                        <input class="form-control"
+                               value="{{ user.nin|default:'Not Provided' }}"
+                               readonly>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- =========================
+                 APPLICATION FORM
+                 ========================= -->
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                <!-- NON-FIELD ERRORS -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <fieldset class="border rounded p-3">
+                    <legend class="fw-bold px-2">Certificate Details</legend>
+
+                    <!-- LGA -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Local Government Area</label>
+                        {{ form.lga }}
+                        {% for error in form.lga.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- PLACE OF BIRTH -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Place of Birth</label>
+                        {{ form.place_of_birth }}
+                        {% for error in form.place_of_birth.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- DATE OF BIRTH -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Date of Birth</label>
+                        {{ form.date_of_birth }}
+                        {% for error in form.date_of_birth.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- HOME TOWN -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Home Town</label>
+                        {{ form.home_town }}
+                        {% for error in form.home_town.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- FAMILY COMPOUND -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Family Compound</label>
+                        {{ form.family_compound }}
+                        {% for error in form.family_compound.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- FATHER NAME -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Father’s Full Name</label>
+                        {{ form.father_name }}
+                        {% for error in form.father_name.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- MOTHER NAME -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Mother’s Full Name</label>
+                        {{ form.mother_name }}
+                        {% for error in form.mother_name.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- PURPOSE -->
+                    <div class="mb-3">
+                        <label class="fw-semibold">Purpose of Certificate</label>
+                        {{ form.purpose }}
+                        {% for error in form.purpose.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- PASSPORT PHOTO (REQUIRED) -->
+                    <div class="mb-4">
+                        <label class="fw-semibold">
+                            Passport Photograph
+                            <span class="text-danger">*</span>
+                        </label>
+                        {{ form.passport_photo }}
+                        <small class="form-text text-muted">
+                            JPEG/PNG only. Maximum size 2MB.
+                        </small>
+                        {% for error in form.passport_photo.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- SUBMIT -->
+                    <button type="submit" class="btn btn-success w-100 py-2">
+                        Submit Application
+                    </button>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

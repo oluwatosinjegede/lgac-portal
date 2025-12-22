@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+  <h3 class="mb-3">
+    <i class="bi bi-briefcase"></i>
+    Pending Applications
+  </h3>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+
+      {% if applications %}
+      <table class="table table-hover mb-0">
+        <thead class="table-warning">
+          <tr>
+            <th>ID</th>
+            <th>Applicant Name</th>
+            <th>LGA</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in applications %}
+          <tr>
+            <td>{{ app.id }}</td>
+
+            <td>
+              {{ app.full_name }}
+            </td>
+
+            <td>
+              {{ app.lga.name }}
+            </td>
+
+            <td>
+              {% if app.status == "submitted" %}
+                <span class="badge bg-primary">Submitted</span>
+              {% elif app.status == "in_review" %}
+                <span class="badge bg-warning text-dark">In Review</span>
+              {% elif app.status == "approved" %}
+                <span class="badge bg-success">Approved</span>
+              {% elif app.status == "rejected" %}
+                <span class="badge bg-danger">Rejected</span>
+              {% else %}
+                <span class="badge bg-secondary">{{ app.status }}</span>
+              {% endif %}
+            </td>
+
+            <td class="text-end">
+              <a
+                href="{% url 'applications:review_application' app.id %}"
+                class="btn btn-sm btn-outline-warning"
+              >
+                <i class="bi bi-check2-square"></i>
+                Review
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% else %}
+      <div class="p-4 text-center text-muted">
+        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+        No applications awaiting review for your LGA.
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>
+        Review Certificate Application
+        <small class="text-muted">#{{ app.id }}</small>
+    </h4>
+
+    <a href="{% url 'lga:dashboard' %}"
+       class="btn btn-sm btn-outline-secondary">
+        ← Back to Dashboard
+    </a>
+</div>
+
+<!-- APPLICATION SUMMARY -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <strong>Applicant Name</strong><br>
+                {{ app.full_name }}
+            </div>
+            <div class="col-md-6">
+                <strong>Status</strong><br>
+                <span class="badge
+                    {% if app.status == 'submitted' %}bg-warning text-dark
+                    {% elif app.status == 'in_review' %}bg-info text-dark
+                    {% elif app.status == 'approved' %}bg-success
+                    {% elif app.status == 'rejected' %}bg-danger
+                    {% else %}bg-secondary{% endif %}">
+                    {{ app.get_status_display }}
+                </span>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <strong>Email</strong><br>
+                {{ app.email }}
+            </div>
+            <div class="col-md-6">
+                <strong>Phone</strong><br>
+                {{ app.phone }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <strong>NIN</strong><br>
+                {{ app.nin|default:"Not provided" }}
+            </div>
+            <div class="col-md-6">
+                <strong>Home Town</strong><br>
+                {{ app.home_town }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <strong>Family Compound</strong><br>
+                {{ app.family_compound }}
+            </div>
+            <div class="col-md-6">
+                <strong>Date of Birth</strong><br>
+                {{ app.date_of_birth }}
+            </div>
+        </div>
+
+        <hr>
+
+        <p>
+            <strong>Purpose of Certificate</strong><br>
+            {{ app.purpose }}
+        </p>
+
+        {% if app.supporting_document %}
+            <p class="mt-2">
+                <strong>Supporting Document:</strong><br>
+                <a href="{{ app.supporting_document.url }}"
+                   target="_blank"
+                   class="btn btn-sm btn-outline-primary">
+                    View Document
+                </a>
+            </p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- REVIEW ACTION FORM -->
+<form method="post" class="card shadow-sm">
+    {% csrf_token %}
+    <div class="card-body">
+
+        <div class="mb-3">
+            <label class="form-label">
+                Officer Notes <span class="text-muted">(optional)</span>
+            </label>
+            <textarea
+                name="notes"
+                class="form-control"
+                rows="3"
+                placeholder="Enter review comments or reasons for decision"
+            >{{ app.approver_notes }}</textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            {% if app.status != 'approved' %}
+                <button
+                    type="submit"
+                    name="action"
+                    value="approve"
+                    class="btn btn-success">
+                    Approve
+                </button>
+            {% endif %}
+
+            {% if app.status != 'rejected' %}
+                <button
+                    type="submit"
+                    name="action"
+                    value="reject"
+                    class="btn btn-danger">
+                    Reject
+                </button>
+            {% endif %}
+
+            <button
+                type="submit"
+                name="action"
+                value="review"
+                class="btn btn-secondary">
+                Mark In Review
+            </button>
+        </div>
+
+    </div>
+</form>
+
+{% endblock %}
