@@ -20,16 +20,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     raise RuntimeError("SECRET_KEY must be set in environment")
 
-DEBUG = env_bool("DEBUG", ENVIRONMENT != "production")
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "0.0.0.0",
-    "192.168.0.136",
-    "akuresouthlga.on.gov.ng",
-    "www.akuresouthlga.on.gov.ng",
-]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 SITE_URL = os.getenv(
     "SITE_URL",
@@ -109,6 +102,10 @@ MIDDLEWARE = [
     "axes.middleware.AxesMiddleware",
 ]
 
+MIDDLEWARE.insert(
+    MIDDLEWARE.index("django.middleware.security.SecurityMiddleware") + 1,
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+)
 # =====================================================
 # AUTHENTICATION
 # =====================================================
@@ -239,3 +236,4 @@ LOGGING = {
         "level": "INFO",
     },
 }
+
