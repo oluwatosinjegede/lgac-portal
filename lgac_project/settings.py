@@ -25,10 +25,11 @@ if not SECRET_KEY:
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 #ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
-ALLOWED_HOSTS = os.environ.get(
-    "ALLOWED_HOSTS",
-    "localhost,127.0.0.1,.railway.app"
-).split(",")
+ALLOWED_HOSTS = [
+    "ondostatelgac.up.railway.app",
+    ".railway.app",
+]
+
 
 SITE_URL = os.getenv(
     "SITE_URL",
@@ -38,8 +39,11 @@ SITE_URL = os.getenv(
 STATE_NAME = os.getenv("STATE_NAME", "Ondo")
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app",
+    "https://ondostatelgac.up.railway.app",
 ]
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # =====================================================
 # SECURITY (ENVIRONMENT AWARE – SINGLE SOURCE OF TRUTH)
