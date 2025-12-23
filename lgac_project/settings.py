@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # =====================================================
 # BASE / ENV
@@ -143,17 +144,12 @@ WSGI_APPLICATION = "lgac_project.wsgi.application"
 # =====================================================
 # DATABASE
 # =====================================================
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DATABASE_NAME"),
-        "USER": os.getenv("DATABASE_USER"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-        "HOST": os.getenv("DATABASE_HOST", "localhost"),
-        "PORT": os.getenv("DATABASE_PORT", "5432"),
-    }
-}
 
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL")
+    )
+}
 # =====================================================
 # PASSWORD VALIDATION
 # =====================================================
