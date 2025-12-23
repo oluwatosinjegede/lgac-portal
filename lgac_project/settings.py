@@ -37,6 +37,10 @@ SITE_URL = os.getenv(
 
 STATE_NAME = os.getenv("STATE_NAME", "Ondo")
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+]
+
 # =====================================================
 # SECURITY (ENVIRONMENT AWARE – SINGLE SOURCE OF TRUTH)
 # =====================================================
