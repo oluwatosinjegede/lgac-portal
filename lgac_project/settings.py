@@ -100,8 +100,6 @@ INSTALLED_APPS = [
     "apps.core",
 ]
 
-INSTALLED_APPS += ["storages"]
-
 AUTH_USER_MODEL = "accounts.User"
 
 # =====================================================
@@ -251,6 +249,8 @@ LOGGING = {
 # MEDIA STORAGE (R2 / S3)
 # ============================
 
+INSTALLED_APPS += ["storages"]
+
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
@@ -264,3 +264,4 @@ AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = False
 
 MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
+
