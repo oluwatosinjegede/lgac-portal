@@ -100,6 +100,8 @@ INSTALLED_APPS = [
     "apps.core",
 ]
 
+INSTALLED_APPS += ["storages"]
+
 AUTH_USER_MODEL = "accounts.User"
 
 # =====================================================
@@ -243,3 +245,22 @@ LOGGING = {
     },
 }
 
+
+
+# ============================
+# MEDIA STORAGE (R2 / S3)
+# ============================
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_ACCESS_KEY_ID = os.getenv("2647e1d700d6f71f6408b78f36e9b1cd")
+AWS_SECRET_ACCESS_KEY = os.getenv("9d3da222a8853f8588f54f1ae2015dd3090fca508f3bfb2b9c0eefebbf5b55a6")
+AWS_STORAGE_BUCKET_NAME = os.getenv("lgac_portal")
+AWS_S3_ENDPOINT_URL = os.getenv("https://e1d173c7f4e99c6cfedc84b3933054ff.r2.cloudflarestorage.com}/{lgac_portal}/")
+
+AWS_S3_REGION_NAME = "auto"
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+
+MEDIA_URL = f"https://e1d173c7f4e99c6cfedc84b3933054ff.r2.cloudflarestorage.com}/{lgac_portal}/"
