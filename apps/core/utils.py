@@ -186,7 +186,9 @@ def generate_certificate_pdf(application):
     # -------------------------------------------------
     # PASSPORT PHOTO
     # -------------------------------------------------
-    if application.passport_photo and os.path.exists(application.passport_photo.path):
+    #if application.passport_photo and os.path.exists(application.passport_photo.path):
+    if application.passport_photo:
+    passport_path = application.passport_photo.url
         pdf.setStrokeColor(green)
         pdf.rect(width - 160, height - 330, 120, 140)
         pdf.drawImage(
