@@ -190,19 +190,21 @@ def generate_certificate_pdf(application):
     passport_path = None
 
     if application.passport_photo:
-    	passport_path = application.passport_photo.url
-        pdf.setStrokeColor(green)
-        pdf.rect(width - 160, height - 330, 120, 140)
-        pdf.drawImage(
-            application.passport_photo.path,
-            width - 155,
-            height - 325,
-            width=110,
-            height=130,
-            preserveAspectRatio=True,
-            mask="auto",
-        )
+    	with default_storage.open(application.passport_photo.name, "rb") as f:
+        	passport_bytes = BytesIO(f.read())
 
+    	pdf.setStrokeColor(green)
+    	pdf.rect(width - 160, height - 330, 120, 140)
+
+    	pdf.drawImage(
+        	passport_bytes,
+        	width - 155,
+        	height - 325,
+        	width=110,
+        	height=130,
+        	preserveAspectRatio=True,
+        	mask="auto",
+    	)
     # -------------------------------------------------
     # APPLICANT DETAILS
     # -------------------------------------------------
