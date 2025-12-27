@@ -286,46 +286,46 @@ def generate_certificate_pdf(application):
     	f"{application.lga.name} Local Government",
     )
 
-# ============================
-# CHAIRMAN SIGNATURE (BELOW HLGA)
-# ============================
-chairman_y = sig_top_y - block_gap - sig_img_height
+    # ============================
+    # CHAIRMAN SIGNATURE (BELOW HLGA)
+    # ============================
+    chairman_y = sig_top_y - block_gap - sig_img_height
 
-if application.lga and application.lga.chairman_signature:
-    draw_image_safe(
-        pdf,
-        application.lga.chairman_signature,
-        sig_left_x,
-        chairman_y,
-        sig_img_width,
-        sig_img_height,
+    if application.lga and application.lga.chairman_signature:
+    	draw_image_safe(
+        	pdf,
+        	application.lga.chairman_signature,
+        	sig_left_x,
+        	chairman_y,
+        	sig_img_width,
+        	sig_img_height,
+    	)
+
+    pdf.drawString(sig_left_x, chairman_y - line_gap, "_______________________________")
+    pdf.drawString(sig_left_x, chairman_y - (2 * line_gap), "Executive Chairman")
+    pdf.drawString(
+    	sig_left_x,
+    	chairman_y - (3 * line_gap),
+    	f"{application.lga.name} Local Government",
     )
 
-pdf.drawString(sig_left_x, chairman_y - line_gap, "_______________________________")
-pdf.drawString(sig_left_x, chairman_y - (2 * line_gap), "Executive Chairman")
-pdf.drawString(
-    sig_left_x,
-    chairman_y - (3 * line_gap),
-    f"{application.lga.name} Local Government",
-)
-    
-# ============================
-# OFFICIAL LGA SEAL (RIGHT SIDE)
-# ============================
+    # ============================
+    # OFFICIAL LGA SEAL (RIGHT SIDE)
+    # ============================
 
-seal_size = 110
-seal_x = width - margin_x - seal_size
-seal_y = chairman_y - 10
+    seal_size = 110
+    seal_x = width - margin_x - seal_size
+    seal_y = chairman_y - 10
 
-if application.lga and application.lga.seal:
-    draw_image_safe(
-        pdf,
-        application.lga.seal,   # pass ImageField, NOT .path
-        seal_x,
-        seal_y,
-        seal_size,
-        seal_size,
-    )
+    if application.lga and application.lga.seal:
+    	draw_image_safe(
+        	pdf,
+        	application.lga.seal,   # pass ImageField, NOT .path
+        	seal_x,
+        	seal_y,
+        	seal_size,
+        	seal_size,
+  	)
 
     pdf.setFont("Helvetica-Bold", 8)
     pdf.drawCentredString(
@@ -375,4 +375,5 @@ if application.lga and application.lga.seal:
     application.certificate_hash = cert_hash
     application.save(update_fields=["certificate_number", "certificate_hash"])
 
+    #return relative_path, cert_hash
     return relative_path, cert_hash
