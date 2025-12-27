@@ -194,30 +194,21 @@ def generate_certificate_pdf(application):
     pdf.drawString(margin_x, height - 190, f"Certificate No: {application.certificate_number}")
     pdf.drawString(margin_x, height - 205, f"Issue Date: {issued_at:%d %B %Y}")
 
-    # -------------------------------------------------
-    # PASSPORT PHOTO
-    # -------------------------------------------------
-    #if application.passport_photo and os.path.exists(application.passport_photo.path):
-    passport_path = None
+    # ============================
+    # PASSPORT PHOTO (TOP RIGHT)
+    # ============================
+
+    pdf.setStrokeColor(green)
+    pdf.rect(width - 160, height - 330, 120, 140)
 
     if application.passport_photo:
-    	try:
-        	with default_storage.open(application.passport_photo.name, "rb") as f:
-            		passport_bytes = BytesIO(f.read())
-    	except FileNotFoundError:
-        	passport_bytes = None  # File missing in storage
-
-    	pdf.setStrokeColor(green)
-    	pdf.rect(width - 160, height - 330, 120, 140)
-
-    	pdf.drawImage(
-        	passport_bytes,
+    	draw_image_safe(
+        	pdf,
+        	application.passport_photo,   # pass ImageField, NOT bytes, NOT .path
         	width - 155,
         	height - 325,
-        	width=110,
-        	height=130,
-        	preserveAspectRatio=True,
-        	mask="auto",
+        	110,
+        	130,
     	)
     # -------------------------------------------------
     # APPLICANT DETAILS
@@ -269,24 +260,28 @@ def generate_certificate_pdf(application):
     # ============================
     # HLGA SIGNATURE (TOP BLOCK)
     # ============================
+
     if application.lga and application.lga.hlga_signature:
     	draw_image_safe(
-    		pdf,
-    		application.passport_photo,
-    		x,
-    		y,
-    		width,
-    		height,
-	)
+        	pdf,
+        	application.lga.hlga_signature,  # correct file
+        	sig_left_x,
+        	sig_top_y,
+        	sig_img_width,
+        	sig_img_height,
+    	)
 
     pdf.setFont("Helvetica", 10)
-    pdf.drawString(sig_left_x, sig_top_y - line_gap, "_______________________________")
+    pdf.drawString(
+    	sig_left_x,
+    	sig_top_y - line_gap,
+    	"_______________________________",
+    )
     pdf.drawString(
     	sig_left_x,
     	sig_top_y - (2 * line_gap),
     	"Head of Local Government Administration",
     )
-	
     pdf.drawString(
     	sig_left_x,
     	sig_top_y - (3 * line_gap),
@@ -296,20 +291,29 @@ def generate_certificate_pdf(application):
     # ============================
     # CHAIRMAN SIGNATURE (BELOW HLGA)
     # ============================
+
     chairman_y = sig_top_y - block_gap - sig_img_height
 
     if application.lga and application.lga.chairman_signature:
     	draw_image_safe(
-    		pdf,
-    		application.passport_photo,
-    		x,
-    		y,
-    		width,
-    		height,
-	)
+        	pdf,
+        	application.lga.chairman_signature,  # correct ImageField
+        	sig_left_x,
+        	chairman_y,
+        	sig_img_width,
+        	sig_img_height,
+    	)
 
-    pdf.drawString(sig_left_x, chairman_y - line_gap, "_______________________________")
-    pdf.drawString(sig_left_x, chairman_y - (2 * line_gap), "Executive Chairman")
+    pdf.drawString(
+    	sig_left_x,
+    	chairman_y - line_gap,
+    	"_______________________________",
+    )
+    pdf.drawString(
+    	sig_left_x,
+    	chairman_y - (2 * line_gap),
+    	"Executive Chairman",
+    )
     pdf.drawString(
     	sig_left_x,
     	chairman_y - (3 * line_gap),
@@ -317,28 +321,35 @@ def generate_certificate_pdf(application):
     )
 
     # ============================
-    # OFFICIAL LGA SEAL (RIGHT SIDE)
+    # CHAIRMAN SIGNATURE (BELOW HLGA)
     # ============================
 
-    seal_size = 110
-    seal_x = width - margin_x - seal_size
-    seal_y = chairman_y - 10
+    chairman_y = sig_top_y - block_gap - sig_img_height
 
-    if application.lga and application.lga.seal:
+    if application.lga and application.lga.chairman_signature:
     	draw_image_safe(
-    		pdf,
-    		application.passport_photo,
-    		x,
-    		y,
-    		width,
-    		height,
-	)
+        	pdf,
+        	application.lga.chairman_signature,  # correct ImageField
+        	sig_left_x,
+        	chairman_y,
+        	sig_img_width,
+        	sig_img_height,
+    	)
 
-    pdf.setFont("Helvetica-Bold", 8)
-    pdf.drawCentredString(
-        seal_x + seal_size / 2,
-        seal_y - 10,
-        "OFFICIAL SEAL",
+    pdf.drawString(
+    	sig_left_x,
+    	chairman_y - line_gap,
+    	"_______________________________",
+    )
+    pdf.drawString(
+    	sig_left_x,
+    	chairman_y - (2 * line_gap),
+    	"Executive Chairman",
+    )
+    pdf.drawString(
+    	sig_left_x,
+    	chairman_y - (3 * line_gap),
+    	f"{application.lga.name} Local Government",
     )
 
 
