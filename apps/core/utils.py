@@ -271,13 +271,13 @@ def generate_certificate_pdf(application):
     # ============================
     if application.lga and application.lga.hlga_signature:
     	draw_image_safe(
-        	pdf,
-        	application.lga.hlga_signature,
-        	sig_left_x,
-        	sig_top_y,
-        	sig_img_width,
-        	sig_img_height,
-    	)
+    		pdf,
+    		application.passport_photo,
+    		x,
+    		y,
+    		width,
+    		height,
+	)
 
     pdf.setFont("Helvetica", 10)
     pdf.drawString(sig_left_x, sig_top_y - line_gap, "_______________________________")
@@ -300,13 +300,13 @@ def generate_certificate_pdf(application):
 
     if application.lga and application.lga.chairman_signature:
     	draw_image_safe(
-        	pdf,
-        	application.lga.chairman_signature,
-        	sig_left_x,
-        	chairman_y,
-        	sig_img_width,
-        	sig_img_height,
-    	)
+    		pdf,
+    		application.passport_photo,
+    		x,
+    		y,
+    		width,
+    		height,
+	)
 
     pdf.drawString(sig_left_x, chairman_y - line_gap, "_______________________________")
     pdf.drawString(sig_left_x, chairman_y - (2 * line_gap), "Executive Chairman")
@@ -326,13 +326,13 @@ def generate_certificate_pdf(application):
 
     if application.lga and application.lga.seal:
     	draw_image_safe(
-        	pdf,
-        	application.lga.seal,   # pass ImageField, NOT .path
-        	seal_x,
-        	seal_y,
-        	seal_size,
-        	seal_size,
-  	)
+    		pdf,
+    		application.passport_photo,
+    		x,
+    		y,
+    		width,
+    		height,
+	)
 
     pdf.setFont("Helvetica-Bold", 8)
     pdf.drawCentredString(
