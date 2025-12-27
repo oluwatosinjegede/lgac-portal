@@ -309,30 +309,30 @@ pdf.drawString(
     f"{application.lga.name} Local Government",
 )
     
-    # ============================
-    # OFFICIAL LGA SEAL (RIGHT SIDE)
-    # ============================
-    seal_size = 110
-    seal_x = width - margin_x - seal_size
-    seal_y = chairman_y - 10
+# ============================
+# OFFICIAL LGA SEAL (RIGHT SIDE)
+# ============================
 
-    if application.lga.seal:
-        draw_image_safe(
-            pdf,
-            application.lga.seal.path,
-            seal_x,
-            seal_y,
-            seal_size,
-            seal_size,
-        )
+seal_size = 110
+seal_x = width - margin_x - seal_size
+seal_y = chairman_y - 10
 
-        pdf.setFont("Helvetica-Bold", 8)
-        pdf.drawCentredString(
-            seal_x + seal_size / 2,
-            seal_y - 10,
-            "OFFICIAL SEAL",
-        )
+if application.lga and application.lga.seal:
+    draw_image_safe(
+        pdf,
+        application.lga.seal,   # pass ImageField, NOT .path
+        seal_x,
+        seal_y,
+        seal_size,
+        seal_size,
+    )
 
+    pdf.setFont("Helvetica-Bold", 8)
+    pdf.drawCentredString(
+        seal_x + seal_size / 2,
+        seal_y - 10,
+        "OFFICIAL SEAL",
+    )
 
 
 
