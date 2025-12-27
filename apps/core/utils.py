@@ -1,5 +1,5 @@
 # apps/core/utils.py
-
+import io
 import os
 import hashlib
 import requests
