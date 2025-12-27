@@ -1,7 +1,6 @@
 # apps/core/utils.py
 
 import os
-import io
 import hashlib
 import requests
 import qrcode
@@ -17,23 +16,31 @@ from django.core.files.storage import default_storage
 from reportlab.lib.colors import green
 from io import BytesIO
 
-def draw_image_safe(pdf, path, x, y, width, height):
+
+def draw_image_safe(pdf, file_field, x, y, width, height):
     """
-    Safely draw an image if it exists and is readable.
+    Safely draw an ImageField stored in cloud storage (R2/S3) into a ReportLab PDF.
     """
     try:
-        if path and os.path.exists(path):
-            pdf.drawImage(
-                path,
-                x,
-                y,
-                width=width,
-                height=height,
-                preserveAspectRatio=True,
-                mask="auto",
-            )
+        with default_storage.open(file_field.name, "rb") as f:
+            image_bytes = BytesIO(f.read())
     except Exception as e:
-        print(f"[PDF IMAGE ERROR] {path}: {e}")
+        print(f"[PDF IMAGE ERROR] {file_field.name}: {e}")
+        return
+
+    try:
+        image = ImageReader(image_bytes)
+        pdf.drawImage(
+            image,
+            x,
+            y,
+            width=width,
+            height=height,
+            preserveAspectRatio=True,
+            mask="auto",
+        )
+    except Exception as e:
+        print(f"[PDF IMAGE ERROR] {file_field.name}: {e}")
 
 
 # =====================================================
