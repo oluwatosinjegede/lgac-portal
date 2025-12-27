@@ -13,6 +13,10 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.colors import HexColor
 
+from django.core.files.storage import default_storage
+from reportlab.lib.colors import green
+from io import BytesIO
+
 def draw_image_safe(pdf, path, x, y, width, height):
     """
     Safely draw an image if it exists and is readable.
