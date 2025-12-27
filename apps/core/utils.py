@@ -194,8 +194,11 @@ def generate_certificate_pdf(application):
     passport_path = None
 
     if application.passport_photo:
-    	with default_storage.open(application.passport_photo.name, "rb") as f:
-        	passport_bytes = BytesIO(f.read())
+    	try:
+        	with default_storage.open(application.passport_photo.name, "rb") as f:
+            		passport_bytes = BytesIO(f.read())
+    	except FileNotFoundError:
+        	passport_bytes = None  # File missing in storage
 
     	pdf.setStrokeColor(green)
     	pdf.rect(width - 160, height - 330, 120, 140)
