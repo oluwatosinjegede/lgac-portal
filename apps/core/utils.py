@@ -258,51 +258,57 @@ def generate_certificate_pdf(application):
     # Base Y position (start signatures here)
     sig_top_y = y - 70
 
+
     # ============================
     # HLGA SIGNATURE (TOP BLOCK)
     # ============================
-    if application.lga.hlga_signature:
-        draw_image_safe(
-            pdf,
-            application.lga.hlga_signature.path,
-            sig_left_x,
-            sig_top_y,
-            sig_img_width,
-            sig_img_height,
-        )
+    if application.lga and application.lga.hlga_signature:
+    	draw_image_safe(
+        	pdf,
+        	application.lga.hlga_signature,
+        	sig_left_x,
+        	sig_top_y,
+        	sig_img_width,
+        	sig_img_height,
+    	)
 
     pdf.setFont("Helvetica", 10)
     pdf.drawString(sig_left_x, sig_top_y - line_gap, "_______________________________")
-    pdf.drawString(sig_left_x, sig_top_y - (2 * line_gap), "Head of Local Government Administration")
     pdf.drawString(
-        sig_left_x,
-        sig_top_y - (3 * line_gap),
-        f"{application.lga.name} Local Government",
+    	sig_left_x,
+    	sig_top_y - (2 * line_gap),
+    	"Head of Local Government Administration",
+    )
+	
+    pdf.drawString(
+    	sig_left_x,
+    	sig_top_y - (3 * line_gap),
+    	f"{application.lga.name} Local Government",
     )
 
-    # ============================
-    # CHAIRMAN SIGNATURE (BELOW HLGA)
-    # ============================
-    chairman_y = sig_top_y - block_gap - sig_img_height
+# ============================
+# CHAIRMAN SIGNATURE (BELOW HLGA)
+# ============================
+chairman_y = sig_top_y - block_gap - sig_img_height
 
-    if application.lga.chairman_signature:
-        draw_image_safe(
-            pdf,
-            application.lga.chairman_signature.path,
-            sig_left_x,
-            chairman_y,
-            sig_img_width,
-            sig_img_height,
-        )
-
-    pdf.drawString(sig_left_x, chairman_y - line_gap, "_______________________________")
-    pdf.drawString(sig_left_x, chairman_y - (2 * line_gap), "Executive Chairman")
-    pdf.drawString(
+if application.lga and application.lga.chairman_signature:
+    draw_image_safe(
+        pdf,
+        application.lga.chairman_signature,
         sig_left_x,
-        chairman_y - (3 * line_gap),
-        f"{application.lga.name} Local Government",
+        chairman_y,
+        sig_img_width,
+        sig_img_height,
     )
 
+pdf.drawString(sig_left_x, chairman_y - line_gap, "_______________________________")
+pdf.drawString(sig_left_x, chairman_y - (2 * line_gap), "Executive Chairman")
+pdf.drawString(
+    sig_left_x,
+    chairman_y - (3 * line_gap),
+    f"{application.lga.name} Local Government",
+)
+    
     # ============================
     # OFFICIAL LGA SEAL (RIGHT SIDE)
     # ============================
