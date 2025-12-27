@@ -321,36 +321,29 @@ def generate_certificate_pdf(application):
     )
 
     # ============================
-    # CHAIRMAN SIGNATURE (BELOW HLGA)
+    # OFFICIAL LGA SEAL (RIGHT SIDE)
     # ============================
 
-    chairman_y = sig_top_y - block_gap - sig_img_height
+    seal_size = 110
+    seal_x = width - margin_x - seal_size
+    seal_y = chairman_y - 10
 
-    if application.lga and application.lga.chairman_signature:
+    if application.lga and application.lga.seal:
     	draw_image_safe(
         	pdf,
-        	application.lga.chairman_signature,  # correct ImageField
-        	sig_left_x,
-        	chairman_y,
-        	sig_img_width,
-        	sig_img_height,
+        	application.lga.seal,   # pass ImageField, NOT .path
+        	seal_x,
+        	seal_y,
+        	seal_size,
+        	seal_size,
     	)
 
-    pdf.drawString(
-    	sig_left_x,
-    	chairman_y - line_gap,
-    	"_______________________________",
-    )
-    pdf.drawString(
-    	sig_left_x,
-    	chairman_y - (2 * line_gap),
-    	"Executive Chairman",
-    )
-    pdf.drawString(
-    	sig_left_x,
-    	chairman_y - (3 * line_gap),
-    	f"{application.lga.name} Local Government",
-    )
+    	pdf.setFont("Helvetica-Bold", 8)
+    	pdf.drawCentredString(
+        	seal_x + seal_size / 2,
+        	seal_y - 10,
+        	"OFFICIAL SEAL",
+    	)
 
 
 
