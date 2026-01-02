@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <img src="{% static 'img/ondo_logo.png' %}" width="110" class="mb-3" alt="Ondo State Logo">
+
+    <h1>
+        Ondo State Local Government<br>
+        Attestation Certificate Portal
+    </h1>
+
+    <p>
+        Apply, verify, and download your attestation certificate securely from any location.
+    </p>
+
+    <a href="{% url 'accounts:signup' %}" class="btn btn-cta">
+        Start Application
+    </a>
+
+    <div class="mt-3">
+        {% if user.is_authenticated %}
+            <a href="/applications/" class="text-white fw-bold">
+                Go to Dashboard →
+            </a>
+        {% else %}
+            <a href="{% url 'accounts:login' %}" class="text-white fw-bold">
+                Already have an account? Login
+            </a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="container mt-5">
+    <h2 class="text-center fw-bold mb-4">
+        Why Use the LGAC Portal?
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h5 class="fw-bold">Secure Identity Verification</h5>
+                <p>
+                    Integrated NIN verification ensures every certificate is authentic and fraud-free.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-cloud-check"></i>
+                </div>
+                <h5 class="fw-bold">Fast Online Processing</h5>
+                <p>
+                    Apply anytime and track your application in real time from your dashboard.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-file-earmark-arrow-down"></i>
+                </div>
+                <h5 class="fw-bold">Instant Certificate Download</h5>
+                <p>
+                    Approved certificates include QR-code security and can be verified instantly.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'accounts:signup' %}" class="btn btn-lgac btn-lg px-4 py-2">
+            Create an Account
+        </a>
+    </div>
+</section>
+
+<!-- STATE STRIP -->
+<footer class="state-strip">
+    <h5 class="fw-bold">
+        Ondo State Government – Ministry of Local Government & Chieftaincy Affairs
+    </h5>
+</footer>
+
+{% endblock %}

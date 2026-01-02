@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+  <div class="card shadow-lg border-success">
+    <div class="card-header bg-success text-white text-center">
+      <h4>Certificate Verification Successful</h4>
+    </div>
+
+    <div class="card-body">
+      <p class="text-success fw-bold">
+        This Local Government Attestation Certificate is VALID and was issued by the Local Government Authority.
+      </p>
+
+      <table class="table table-bordered">
+        <tr>
+          <th>Certificate Number</th>
+          <td>{{ application.certificate_number }}</td>
+        </tr>
+        <tr>
+          <th>Applicant Name</th>
+          <td>{{ application.full_name }}</td>
+        </tr>
+        <tr>
+          <th>LGA</th>
+          <td>{{ application.lga.name }}</td>
+        </tr>
+        <tr>
+          <th>Purpose</th>
+          <td>{{ application.purpose }}</td>
+        </tr>
+        <tr>
+          <th>Date Issued</th>
+          <td>{{ application.approved_at|date:"F d, Y" }}</td>
+        </tr>
+      </table>
+
+      <p class="text-muted small">
+        Verification Code: {{ application.certificate_hash }}
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
