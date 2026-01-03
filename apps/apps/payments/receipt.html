@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card shadow-sm mt-4">
+  <div class="card-body">
+
+    <h4 class="mb-3 text-success">
+      Payment Receipt
+    </h4>
+
+    <p><strong>Receipt No:</strong> {{ payment.reference }}</p>
+    <p><strong>Applicant:</strong> {{ payment.user.full_name }}</p>
+    <p><strong>Application ID:</strong> {{ payment.application.id }}</p>
+    <p><strong>Amount Paid:</strong> ₦{{ payment.amount }}</p>
+    <p><strong>Date:</strong> {{ payment.paid_at|date:"d M Y, H:i" }}</p>
+
+    <hr>
+
+    <a href="{% url 'applications:dashboard' %}" class="btn btn-primary">
+      Back to Dashboard
+    </a>
+
+  </div>
+</div>
+
+{% endblock %}

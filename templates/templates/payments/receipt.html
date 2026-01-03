@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4 mb-5">
+
+    <div class="card shadow-sm border-0">
+
+        <!-- HEADER -->
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-receipt-cutoff"></i>
+                Payment Receipt
+            </h5>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body">
+
+            <!-- STATUS -->
+            {% if payment.status == "SUCCESS" %}
+                <div class="alert alert-success fw-semibold mb-3">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Payment Successful
+                </div>
+            {% elif payment.status == "PENDING" %}
+                <div class="alert alert-warning fw-semibold mb-3">
+                    <i class="bi bi-hourglass-split"></i>
+                    Payment Pending Verification
+                </div>
+            {% else %}
+                <div class="alert alert-danger fw-semibold mb-3">
+                    <i class="bi bi-x-circle-fill"></i>
+                    Payment Failed
+                </div>
+            {% endif %}
+
+            <!-- PAYMENT DETAILS -->
+            <h6 class="text-muted mb-2">Payment Details</h6>
+            <table class="table table-sm table-borderless mb-4">
+                <tr>
+                    <th width="40%">Receipt Reference</th>
+                    <td>{{ payment.reference }}</td>
+                </tr>
+                <tr>
+                    <th>Amount Paid</th>
+                    <td>
+                        ₦{{ payment.amount|divisibleby:100|floatformat:2 }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Payment Date</th>
+                    <td>
+                        {% if payment.paid_at %}
+                            {{ payment.paid_at|date:"M d, Y · H:i" }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+
+            <hr>
+
+            <!-- APPLICATION DETAILS -->
+            <h6 class="text-muted mb-2">Application Details</h6>
+            <table class="table table-sm table-borderless">
+                <tr>
+                    <th width="40%">Application ID</th>
+                    <td>#{{ payment.application.id }}</td>
+                </tr>
+                <tr>
+                    <th>Applicant Name</th>
+                    <td>{{ payment.application.full_name }}</td>
+                </tr>
+                <tr>
+                    <th>Local Government</th>
+                    <td>{{ payment.application.lga.name }}</td>
+                </tr>
+                <tr>
+                    <th>Application Status</th>
+                    <td>
+                        <span class="badge bg-info">
+                            {{ payment.application.get_status_display }}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="card-footer d-flex justify-content-between align-items-center">
+
+            <a href="{% url 'applications:dashboard' %}"
+               class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i>
+                Back to Dashboard
+            </a>
+
+            <a href="{% url 'applications:view' payment.application.id %}"
+               class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-eye"></i>
+                View Application
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

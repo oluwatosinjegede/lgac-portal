@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <!-- HEADER -->
+                    <div class="text-center mb-4">
+                        <img src="/static/img/ondo_logo.png"
+                             width="70"
+                             alt="Ondo State Logo"
+                             class="mb-2">
+
+                        <h3 class="fw-bold text-success mb-1">
+                            My Profile
+                        </h3>
+
+                        <p class="text-muted mb-0">
+                            Ondo State Local Government Attestation Certificate Portal
+                        </p>
+                    </div>
+
+                    <!-- PROFILE DETAILS -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle">
+                            <tbody>
+
+                                <tr>
+                                    <th class="bg-light" width="35%">Full Name</th>
+                                    <td>{{ user.full_name }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-light">Email Address</th>
+                                    <td>{{ user.email }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-light">Phone Number</th>
+                                    <td>{{ user.phone }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-light">Role</th>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            {{ user.get_role_display }}
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-light">National ID Number (NIN)</th>
+                                    <td>
+                                        {% if user.nin %}
+                                            {{ user.nin }}
+                                            <span class="badge bg-success ms-2">Provided</span>
+                                        {% else %}
+                                            <span class="text-muted">Not provided</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-light">Account Status</th>
+                                    <td>
+                                        {% if user.is_active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-light">Date Joined</th>
+                                    <td>{{ user.date_joined|date:"F d, Y" }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+
+                        <a href="{% url 'core:home' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Home
+                        </a>
+
+                        {% if user.is_citizen %}
+                        <a href="{% url 'applications:dashboard' %}" class="btn btn-success">
+                            <i class="bi bi-file-earmark-text"></i> My Applications
+                        </a>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

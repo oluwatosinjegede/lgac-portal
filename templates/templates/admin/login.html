@@ -1,0 +1,66 @@
+{% extends "admin/login.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    /* ===============================
+       MODERN ADMIN LOGIN REFINEMENT
+       =============================== */
+
+    /* Reduce overall login box width */
+    .login-box {
+        max-width: 380px !important;
+        margin-top: 6vh !important;
+    }
+
+    /* Logo sizing */
+    .login-logo img {
+        max-height: 70px !important;
+        width: auto !important;
+        display: block;
+        margin: 0 auto 10px auto;
+    }
+
+    /* Reduce padding for cleaner look */
+    .login-box-body,
+    .card-body {
+        padding: 1.5rem !important;
+    }
+
+    /* Improve form spacing */
+    .form-control {
+        height: 44px;
+        font-size: 0.95rem;
+    }
+
+    /* Button refinement */
+    .btn-primary {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+
+    /* Headings spacing */
+    .login-box-msg {
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+    }
+
+    /* Footer styling */
+    .admin-login-footer {
+        text-align: center;
+        margin-top: 25px;
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="admin-login-footer">
+    &copy; {% now "Y" %} Ondo State Government<br>
+    Ministry of Local Government &amp; Chieftaincy Affairs
+</div>
+{% endblock %}

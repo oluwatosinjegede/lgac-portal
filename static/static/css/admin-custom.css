@@ -1,0 +1,31 @@
+/* =====================================================
+   JAZZMIN LOGIN PAGE – HARD LOGO OVERRIDE (FINAL FIX)
+   ===================================================== */
+
+/* LOGIN PAGE CONTAINER */
+.login-box {
+    max-width: 420px !important;
+}
+
+/* LOGIN LOGO WRAPPER */
+.login-logo {
+    padding: 10px 0 !important;
+}
+
+/* LOGIN LOGO IMAGE — FORCE SIZE */
+.login-logo img,
+.login-box .login-logo img {
+    height: 70px !important;
+    max-height: 70px !important;
+    width: auto !important;
+    max-width: 220px !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+    display: block !important;
+}
+
+/* PREVENT JAZZMIN FROM SCALING IT */
+.login-logo a {
+    display: block !important;
+    line-height: normal !important;
+}

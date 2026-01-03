@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h4 class="mb-3">
+    Certificate Application #{{ app.id }}
+</h4>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <!-- =========================
+             STATUS
+             ========================= -->
+        <p>
+            <strong>Status:</strong>
+            <span class="badge
+                {% if app.status == 'SUBMITTED' %}bg-warning text-dark
+                {% elif app.status == 'IN_REVIEW' %}bg-info text-dark
+                {% elif app.status == 'APPROVED' %}bg-success
+                {% elif app.status == 'WITHDRAWN' %}bg-secondary
+                {% else %}bg-secondary{% endif %}">
+                {{ app.get_status_display }}
+            </span>
+        </p>
+
+        <hr>
+
+        <!-- =========================
+             IDENTITY SNAPSHOT
+             ========================= -->
+        <p><strong>Full Name:</strong> {{ app.full_name }}</p>
+        <p><strong>Email:</strong> {{ app.email }}</p>
+        <p><strong>Phone:</strong> {{ app.phone }}</p>
+        <p><strong>NIN:</strong> {{ app.nin|default:"Not Provided" }}</p>
+
+        <hr>
+
+        <!-- =========================
+             PERSONAL DETAILS
+             ========================= -->
+        <p><strong>Home Town:</strong> {{ app.home_town }}</p>
+        <p><strong>Family Compound:</strong> {{ app.family_compound }}</p>
+        <p><strong>Date of Birth:</strong> {{ app.date_of_birth }}</p>
+        <p><strong>Place of Birth:</strong> {{ app.place_of_birth }}</p>
+
+        <hr>
+
+        <!-- =========================
+             PURPOSE
+             ========================= -->
+        <p>
+            <strong>Purpose of Certificate:</strong><br>
+            {{ app.purpose }}
+        </p>
+
+        <!-- =========================
+             CERTIFICATE DOWNLOAD
+             ========================= -->
+        {% if app.status == 'APPROVED' and app.certificate_hash %}
+            <hr>
+            <p>
+                <strong>Issued Certificate:</strong><br>
+                <a href="{% url 'applications:download_certificate' app.id %}"
+                   class="btn btn-success btn-sm"
+                   target="_blank">
+                    Download Certificate (PDF)
+                </a>
+            </p>
+
+            <p class="text-muted small">
+                Certificate No: {{ app.certificate_number }}
+            </p>
+        {% endif %}
+
+        <!-- =========================
+             NAVIGATION
+             ========================= -->
+        <a href="{% url 'applications:dashboard' %}"
+           class="btn btn-outline-secondary mt-3">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

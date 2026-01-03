@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <!-- HEADER -->
+                <div class="signup-header text-center mb-4">
+                    <img src="{% static 'img/ondo_logo.png' %}"
+                         width="80"
+                         class="mb-3"
+                         alt="Ondo State Logo">
+                    <h3 class="fw-bold text-success">Citizen Registration</h3>
+                    <p class="text-muted">
+                        Create your account to apply for the Local Government Attestation Certificate
+                    </p>
+                </div>
+
+                <!-- FORM -->
+                <form method="post" id="signupForm" novalidate>
+                    {% csrf_token %}
+
+                    <!-- GLOBAL ERRORS -->
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <!-- FULL NAME -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Full Name</label>
+                        {{ form.full_name }}
+                        {% for error in form.full_name.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email Address</label>
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- PHONE -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Phone Number</label>
+                        {{ form.phone }}
+                        {% for error in form.phone.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- NIN + VERIFY -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            National Identification Number (NIN)
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="input-group">
+                            {{ form.nin }}
+
+                            <button
+                                type="button"
+                                id="verifyNinBtn"
+                                class="btn btn-outline-success">
+                                Verify NIN
+                            </button>
+                        </div>
+
+                        <!-- Status feedback -->
+                        <small id="ninStatus" class="fw-bold d-block mt-1"></small>
+
+                        {% for error in form.nin.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Password</label>
+                        {{ form.password1 }}
+                        {% for error in form.password1.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- CONFIRM PASSWORD -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Confirm Password</label>
+                        {{ form.password2 }}
+                        {% for error in form.password2.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <!-- SUBMIT (LOCKED UNTIL VERIFIED) -->
+                    <button
+                        type="submit"
+                        id="submitBtn"
+                        class="btn btn-lgac w-100 py-2"
+                        disabled>
+                        Create My Account
+                    </button>
+                </form>
+
+                <!-- LOGIN LINK -->
+                <p class="text-center mt-3">
+                    Already registered?
+                    <a href="{% url 'accounts:login' %}" class="fw-bold text-success">
+                        Login here
+                    </a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- NIN VERIFICATION SCRIPT -->
+<script src="{% static 'js/nin_verify.js' %}"></script>
+{% endblock %}

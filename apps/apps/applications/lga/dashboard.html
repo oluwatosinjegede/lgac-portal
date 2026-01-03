@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-4">
+        <h3 class="fw-bold text-primary">LGA Officer Dashboard</h3>
+        <p class="text-muted">Manage Local Government Attestation Applications</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Applicant</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for app in applications %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ app.user.full_name }}</td>
+                        <td>{{ app.user.email }}</td>
+                        <td>{{ app.user.phone }}</td>
+                        <td>
+                            {% if app.status == "PENDING" %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% elif app.status == "APPROVED" %}
+                                <span class="badge bg-success">Approved</span>
+                            {% else %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ app.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            {% if app.status == "PENDING" %}
+                                <a href="{% url 'applications:approve' app.id %}"
+                                   class="btn btn-sm btn-success">
+                                    Approve
+                                </a>
+                                <a href="{% url 'applications:reject' app.id %}"
+                                   class="btn btn-sm btn-danger">
+                                    Reject
+                                </a>
+                            {% else %}
+                                <span class="text-muted">Reviewed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">
+                            No applications yet.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

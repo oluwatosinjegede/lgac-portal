@@ -1,0 +1,72 @@
+/* =========================
+   HERO SECTION
+========================= */
+.hero {
+    background: url('/static/img/ondo_bg.jpg') center/cover no-repeat;
+    background-blend-mode: overlay;
+    background-color: rgba(10, 114, 39, 0.75);
+    padding: 100px 0;
+    color: #fff;
+    text-align: center;
+}
+
+.hero h1 {
+    font-weight: 800;
+    font-size: 42px;
+}
+
+.hero p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* CTA BUTTON */
+.btn-cta {
+    background-color: #D6A645;
+    border: none;
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.btn-cta:hover {
+    background-color: #bf8e32;
+    color: #fff;
+}
+
+/* =========================
+   FEATURES
+========================= */
+.feature-card {
+    border-radius: 10px;
+    padding: 25px;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 16px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    font-size: 40px;
+    color: #0A7227;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   FOOTER STRIP
+========================= */
+.state-strip {
+    background-color: #0A7227;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    margin-top: 60px;
+}

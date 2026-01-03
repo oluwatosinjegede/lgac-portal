@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .login-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .login-header h3 {
+        font-weight: 700;
+        color: #0A7227;
+    }
+    .form-control:focus {
+        border-color: #0A7227;
+        box-shadow: 0 0 0 0.2rem rgba(10, 114, 39, 0.25);
+    }
+    .btn-lgac {
+        background-color: #0A7227;
+        color: #fff;
+        font-weight: 600;
+    }
+    .btn-lgac:hover {
+        background-color: #085A20;
+        color: #fff;
+    }
+    .input-group-text {
+        background-color: #f3f3f3;
+        font-weight: bold;
+    }
+    .info-note {
+        font-size: 13px;
+        text-align: center;
+        color: #777;
+    }
+</style>
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <!-- HEADER -->
+                <div class="login-header">
+                    <img src="{% static 'img/ondo_logo.png' %}" width="75" class="mb-3" alt="Ondo State Logo">
+                    <h3>Account Login</h3>
+                    <p class="text-muted">
+                        Sign in to access the Local Government Attestation Certificate Portal
+                    </p>
+                </div>
+
+                <!-- SESSION EXPIRED WARNING -->
+                {% if request.GET.expired %}
+                    <div class="alert alert-warning text-center">
+                        <i class="bi bi-clock-history me-1"></i>
+                        Your session expired due to inactivity. Please log in again.
+                    </div>
+                {% endif %}
+
+                <!-- SYSTEM MESSAGES -->
+                {% include "layout/messages.html" %}
+
+                <!-- LOGIN FORM -->
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <!-- EMAIL -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope-fill"></i>
+                            </span>
+                            <input
+                                type="email"
+                                name="username"
+                                class="form-control"
+                                placeholder="you@example.com"
+                                required
+                                autofocus
+                            >
+                        </div>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock-fill"></i>
+                            </span>
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter your password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <!-- LOGIN -->
+                    <button type="submit" class="btn btn-lgac w-100 py-2 mt-3">
+                        Login
+                    </button>
+                </form>
+
+                <!-- DIVIDER -->
+                <hr class="my-4">
+
+                <!-- LGA OFFICER LOGIN -->
+                <div class="text-center">
+                    <p class="fw-semibold mb-2">LGA Staff Access</p>
+
+                    <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-shield-lock-fill me-1"></i>
+                        LGA Officer Login
+                    </a>
+                </div>
+
+                <!-- LINKS -->
+                <p class="text-center mt-4">
+                    <a href="#" class="text-success fw-semibold">
+                        Forgot your password?
+                    </a>
+                </p>
+
+                <p class="info-note mt-2">
+                    Citizen user?
+                    <a href="{% url 'accounts:signup' %}" class="text-success fw-semibold">
+                        Create an account
+                    </a>
+                </p>
+
+                <!-- SECURITY NOTICE -->
+                <p class="info-note mt-3">
+                    <i class="bi bi-shield-check"></i>
+                    For your security, sessions automatically expire after periods of inactivity.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
